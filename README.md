@@ -6,6 +6,7 @@ Chrome [introduced headless mode in v59](https://developers.google.com/web/updat
 ## Requirements
 - Django
 - Chrome, Chromium, or Chrome Canary >= v59
+- Currently only tested against Django 1.10+ and Python 3.6 (other versions may be supported, submit an issue if not!)
 
 ## Installation
 
@@ -41,7 +42,7 @@ class MyView(PDFViewMixin, TemplateView):
 
 ```
 
-It works with any Django Class Based View, and implements PDF rendering on the `GET` HTTP method.   The CBV mixin supports several options for extension and customization covered in the FAQ section.
+It works with any Django Class Based View, and implements PDF rendering on the `GET` HTTP method. Further, if the `?html` querystring variable is provided the mixin will render the view normally for designing and debugging of PDF views.  The CBV mixin supports several options for extension and customization covered in the FAQ section.
 
 There are two methods which implement a lower level API which can be used directly:
 
@@ -119,4 +120,5 @@ bytestring_to_pdf(open('myfile.html'), open('myfile.pdf'), **extra_args)
       def get_filename(self):
           return "my_file_{}.pdf".format(now().strftime('Y-m-d'))
   ```
-  
+ 
+ 
