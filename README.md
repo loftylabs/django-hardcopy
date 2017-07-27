@@ -91,14 +91,14 @@ extra_args = {
     'virtual-time-budget': 6000
 }
 
-bytestring_to_pdf(b"<h1>Hello Chrome!</h1>", open('myfile.pdf'), **extra_args)
+bytestring_to_pdf(b"<html><h1>Hello Chrome!</h1></html>", open('myfile.pdf'), **extra_args)
 # translates to --virtual-time-budget=6000 when starting chrome
 
 extra_args = {
     'disable-gpu': None
 }
 
-bytestring_to_pdf(open('myfile.html'), open('myfile.pdf'), **extra_args)
+bytestring_to_pdf(b"<html><h1>Hello Chrome!</h1></html>", open('myfile.pdf'), **extra_args)
 # translates to --disable-gpu when starting chrome (currently on by default and required by Chrome)
 ```
 
