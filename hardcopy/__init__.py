@@ -8,9 +8,13 @@ def file_to_pdf(input_file, output_file, **extra_args):
     """
     Given an input file(HTML) and an output file, render the HTML as a PDF and save it to output_file
     input_file and output_file are both (open) file-like objects.
+    :param html_data:  file like object to read from
+    :param output_file: file like object to write to
+    :param extra_args: additional command line arguments to chrome
+    :return:
     """
     chrome_args = [
-        hc_settings.PATH_TO_CHROME,
+        hc_settings.CHROME_PATH,
         '--headless',
         '--print-to-pdf="{}"'.format(output_file.name),
         '--disable-gpu',  # Required by chrome's headless mode for now

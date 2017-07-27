@@ -18,7 +18,6 @@ class PDFViewMixin(object):
         """
         Render page to the specified output filename using headless browser
         """
-
         response = super(PDFViewMixin, self).get(request, *args, **kwargs)
         if 'html' in request.GET:
             return response
@@ -34,5 +33,8 @@ class PDFViewMixin(object):
 
         # Return the file
         response = FileResponse(output_file, content_type="application/pdf")
-        response['Content-Disposition'] = 'filename="{}"'.format(self.get_filename())
+
+        atc = 'attachment;' if self.download_attachment else ''
+        response['Content-Disposition'] = '{}filename="{}"'.format(atc, self.get_filename())
+
         return response
