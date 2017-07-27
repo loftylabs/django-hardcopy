@@ -1,9 +1,7 @@
-import subprocess
 from tempfile import NamedTemporaryFile
-
 from django.http import FileResponse
 
-from hardcopy.conf import hc_settings
+from hardcopy import bytestring_to_pdf
 
 
 class PDFViewMixin(object):
@@ -26,30 +24,13 @@ class PDFViewMixin(object):
             return response
 
         response.render()
-
-        input_file = NamedTemporaryFile()
         output_file = NamedTemporaryFile()
 
-        input_file.write(response.content)
-        input_file.flush()
-
-        chrome_args = [
-            hc_settings.PATH_TO_CHROME,
-            '--headless',
-            '--print-to-pdf="{}"'.format(output_file.name),
-            '--disable-gpu',
-        ]
-
-        # Optional args
+        extra_args = {}
         if self.virtual_time_budget is not None:
-            chrome_args.append('--virtual-time-budget={}'.format(self.virtual_time_budget))
+            extra_args.update({'virtual-time-budget': self.virtual_time_budget})
 
-        # Path to the input data
-        chrome_args.append('file://{}'.format(input_file.name))
-        subprocess.call(" ".join(chrome_args), shell=True)
-        input_file.close()
-        output_file.seek(0)
-
+        bytestring_to_pdf(response.content, output_file, **extra_args)
 
         # Return the file
         response = FileResponse(output_file, content_type="application/pdf")
