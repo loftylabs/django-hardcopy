@@ -8,7 +8,7 @@ def smart_chrome_default():
     weird Apple place.)
     """
 
-    if platform.uname().system == "Darwin":
+    if platform.uname()[0] == "Darwin":
         return '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 
     return 'chrome'
