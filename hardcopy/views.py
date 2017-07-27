@@ -10,6 +10,7 @@ class PDFViewMixin(object):
     """
     template_name = None
     virtual_time_budget = None
+    download_attachment = False
 
     def get_filename(self):
         return '{}.pdf'.format(self.template_name).replace('.html', '')
