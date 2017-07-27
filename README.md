@@ -124,7 +124,7 @@ bytestring_to_pdf(b"<html><h1>Hello Chrome!</h1></html>", open('myfile.pdf'), **
  ## Caveats
  
  ### Static files
-Under the hood, django-hardcopy writes HTML content to a temporary file which is loaded in chrome via the `file://` protocol. This does no magic on handling static files, and since Django is not necessarily serving static files (say if `STATIC_URL` is set to a relative path like most development envirnoments).  In production environments where static assets are served via a media server or s3 bucket at an absoulte URL, this is probably fine.
+Under the hood, django-hardcopy writes HTML content to a temporary file which is loaded in chrome via the `file://` protocol. This does no magic on handling static files, and since Django is not necessarily serving static files at the URL rendered in the template (say if `STATIC_URL` is set to a relative path like most development envirnoments).  In production environments where static assets are served via a media server or s3 bucket at an absoulte URL, this is probably fine.
 
 In local development however, Chrome will recieve a connection refused error on attempts to load static files in templates included like `<link href="{% static 'style.css' %}" rel="stylesheet">`.   The best workaround for this is to include static assets inline in PDF templates.
 
