@@ -31,7 +31,7 @@ If you're on Mac OSX, just upgrade to the latest Chrome and you're good to go!
 
 The easiest way to use `django-hardcopy` is to use its CBV mixin:
 
-```
+```python
 from django.views.generic import TemplateView
 from hardcopy.views import PDFViewMixin
 
@@ -54,7 +54,7 @@ Arguments:
 
 This function will read the contents of `input_file` (an HTML bytestring), render it with Chrome and store the binary PDF data in `output_file`.  Any `kwargs` are translated as commandline arguments to chrome when starting the headless browser for rendering, i.e.:
 
-```
+```python
 from hardcopy import file_to_pdf
 
 extra_args = {
@@ -83,7 +83,7 @@ Arguments:
 This render the contents of `html_data` with Chrome and store the binary PDF data in `output_file`.  Any `kwargs` are translated as commandline arguments to chrome when starting the headless browser for rendering, i.e.:
 
 
-```
+```python
 from hardcopy import bytestring_to_pdf
 
 extra_args = {
@@ -107,14 +107,14 @@ bytestring_to_pdf(open('myfile.html'), open('myfile.pdf'), **extra_args)
 - How do I configure a view to download the PDF file?
   
   Set the `download_attachment` property to `True`:
-  ```
+  ```python
   class MyView(PDFViewMixin, TemplateView):
       download_attachment = True
   ```
 - How do I customize the file name of the generated PDF?
   
   Override the `get_filename` method of your view:
-  ```
+  ```python
   class MyView(PDFViewMixin, TemplateView):
       def get_filename(self):
           return "my_file_{}.pdf".format(now().strftime('Y-m-d'))
