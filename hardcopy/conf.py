@@ -10,7 +10,9 @@ def smart_chrome_default():
 
     if platform.uname()[0] == "Darwin":
         return '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
-
+    if platform.uname()[0] == "Linux":
+        if "Ubuntu" in platform.version():
+            return '/usr/bin/chromium-browser'
     return 'chrome'
 
 
