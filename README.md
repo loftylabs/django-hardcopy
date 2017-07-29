@@ -16,7 +16,7 @@ Install the library:
     
 Install Chrome or a derivative:
 
-    apt-get install chromuim-browser
+    apt-get install chromium-browser
     
 Set your Chrome path (optional)
 
