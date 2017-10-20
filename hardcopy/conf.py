@@ -27,7 +27,7 @@ def get_chrome_path():
 
 class HardCopyConfig(object):
     CHROME_PATH = getattr(settings, 'CHROME_PATH', get_chrome_path())
-    PDF_RESOLUTION = getattr(settings, 'PDF_RESOLUTION', '1280,720')
+    CHROME_WINDOW_SIZE = getattr(settings, 'CHROME_WINDOW_SIZE', '1280,720')
 
 
 settings = HardCopyConfig()

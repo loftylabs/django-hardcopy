@@ -18,7 +18,7 @@ def file_to_pdf(input_file, output_file, **extra_args):
 
     chrome_args = [
         settings.CHROME_PATH,
-        '--window-size={}'.format(settings.PDF_RESOLUTION),
+        '--window-size={}'.format(settings.CHROME_WINDOW_SIZE),
         '--no-sandbox',  # Avoids permission issues while dockerized.
         '--headless',
         '--disable-extensions',  # Reduces startup overhead.
