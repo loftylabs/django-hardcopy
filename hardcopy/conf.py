@@ -1,23 +1,33 @@
 import platform
+from pathlib import Path
+
 from django.conf import settings
 
+LINUX_PATHS = [
+    '/usr/bin/chromium',
+    '/usr/bin/chromium-browser',
+    '/usr/bin/chrome',
+    '/usr/bin/chrome-browser',
+]
 
-def smart_chrome_default():
-    """
-    Attempt to guess the Chrome path by default.  (Mostly to find Chrome by default on OSX in it's
-    weird Apple place.)
-    """
+
+def get_chrome_path():
+    """Attempt to guess the Chrome path by default."""
 
     if platform.uname()[0] == "Darwin":
         return '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
     if platform.uname()[0] == "Linux":
-        if platform.linux_distribution()[0] == "Ubuntu":
-            return '/usr/bin/chromium-browser'
-    return 'chrome'
+        # Iterate through some sane path defaults.
+        for path in LINUX_PATHS:
+            if Path(path).is_file():
+                return path
+    # No path found, throw an error.
+    raise ValueError
 
 
 class HardCopyConfig(object):
-    CHROME_PATH = getattr(settings, 'CHROME_PATH', smart_chrome_default())
+    CHROME_PATH = getattr(settings, 'CHROME_PATH', get_chrome_path())
+    PDF_RESOLUTION = getattr(settings, 'PDF_RESOLUTION', '1280,720')
 
 
-hc_settings = HardCopyConfig()
+settings = HardCopyConfig()
