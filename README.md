@@ -18,15 +18,19 @@ Install Chrome or a derivative:
 
     apt-get install chromium-browser
     
-Set your Chrome path (optional)
+Set your Chrome path (optional):
 
     # settings.py
     
     CHROME_PATH = '/path/to/chrome-or-chromium'
     
-This can be useful if you want to use `chrome-canary` or `chromium-browser` (available by default in Ubuntu).  Django-hardcopy will attempt to smartly default the appropriate chrome path for your os.  
+This can be useful if you want to use `chrome-canary` or `chromium-browser` (available by default in Ubuntu).  Django-hardcopy will attempt to smartly default the appropriate chrome path for your os. If you're on Mac OSX, just upgrade to the latest Chrome and you're good to go!
+
+Set the rendering window size (optional, default: 1280,720):
  
-If you're on Mac OSX, just upgrade to the latest Chrome and you're good to go!
+    # settings.py
+    
+    CHROME_WINDOW_SIZE = '800,600'
 
 ## Usage
 
@@ -144,7 +148,16 @@ Arguments:
       def get_filename(self):
           return "my_file_{}.pdf".format(now().strftime('Y-m-d'))
   ```
-  
+- How do I render context using the CBV mixin?
+
+  Add your context to the `template_context` object, this should be a `dict`:
+  ```python
+  class MyView(PDFViewMixin, TemplateView):
+      def get(self, request, *args, **kwargs):
+          data = request.GET.get('example')
+          self.template_context['example_data'] = data
+          ...
+  ```
  ## Caveats
  
  ### Static files
