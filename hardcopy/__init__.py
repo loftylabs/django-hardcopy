@@ -13,6 +13,7 @@ def get_chrome_args():
         '--disable-gpu',  # Required by chrome's headless mode for now.
     ]
 
+
 def file_to(fmt, input_file, output_file, **extra_args):
     """
     Given an input file(HTML) and an output file,
@@ -69,7 +70,7 @@ def bytestring_to(converter, html_data, output_file, **extra_args):
     converter(input_file, output_file, **extra_args)
 
     return True
-    
+
 
 def file_to_pdf(input_file, output_file, **extra_args):
     """
@@ -98,7 +99,8 @@ def bytestring_to_pdf(html_data, output_file, **extra_args):
     return bytestring_to(file_to_pdf, html_data, output_file, **extra_args)
 
 
-def file_to_png(input_file, output_file, **extra_args):
+def file_to_png(input_file, output_file,
+                width=None, height=None, **extra_args):
     """
     Given an input file(HTML) and an output file,
     render the HTML as a PNG and save it to output_file.
@@ -111,10 +113,13 @@ def file_to_png(input_file, output_file, **extra_args):
     :param extra_args: additional command line arguments to chrome
     :return:
     """
+    if width is not None and height is not None:
+        extra_args.update({'window-size': '{},{}'.format(width, height)})
     return file_to('png', input_file, output_file, **extra_args)
 
 
-def bytestring_to_png(html_data, output_file, **extra_args):
+def bytestring_to_png(html_data, output_file,
+                      width=None, height=None, **extra_args):
     """
     Given a bytestring of html data as input,
     (like a rendered django template response),
@@ -127,4 +132,6 @@ def bytestring_to_png(html_data, output_file, **extra_args):
     :param extra_args: additional command line arguments to chrome
     :return:
     """
+    if width is not None and height is not None:
+        extra_args.update({'window-size': '{},{}'.format(width, height)})
     return bytestring_to(file_to_png, html_data, output_file, **extra_args)
