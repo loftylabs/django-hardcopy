@@ -139,6 +139,13 @@ Arguments:
   ```python
   class MyView(PDFViewMixin, TemplateView):
       download_attachment = True
+
+- How do I override the chrome window size defined in a view?
+  
+  Set the `chrome_window_size` property to a string of your choice:
+  ```python
+  class MyView(PDFViewMixin, TemplateView):
+      chrome_window_size = '1920,1600'
   ```
 - How do I customize the file name of the generated PDF/PNG?
   
@@ -148,16 +155,26 @@ Arguments:
       def get_filename(self):
           return "my_file_{}.pdf".format(now().strftime('Y-m-d'))
   ```
-- How do I render context using the CBV mixin?
+- How do I add context data with django-hardcopy ?
 
-  Add your context to the `template_context` object, this should be a `dict`:
+  There's no magic here, simply override the `TemplateView.get_context_data` method,
+  like you would do in a normal view:
   ```python
   class MyView(PDFViewMixin, TemplateView):
-      def get(self, request, *args, **kwargs):
-          data = request.GET.get('example')
-          self.template_context['example_data'] = data
-          ...
+      def get_context_data(self, **kwargs):
+          context = super(MyView, self).get_context_data(**kwargs)
+          context['example_data'] = self.request.GET.get('example')
+          return context
   ```
+- I want to process the rendered HTML content before it is converted to PDF or PNG, how to this ?
+
+  Just override the mixin method `process_html_content` in your view:
+  ```python
+  class MyView(PDFViewMixin, TemplateView):
+      def process_html_content(self, content):
+          return make_absolute_paths(content)
+  ```
+
  ## Caveats
  
  ### Static files
