@@ -166,7 +166,7 @@ Arguments:
           context['example_data'] = self.request.GET.get('example')
           return context
   ```
-- I want to process the rendered HTML content before it is converted to PDF or PNG, how to this ?
+- I want to process the rendered HTML content before it is converted to PDF or PNG, how to do this ?
 
   Just override the mixin method `process_html_content` in your view:
   ```python
