@@ -1,4 +1,4 @@
-from tempfile import NamedTemporaryFile
+from django.core.files.temp import NamedTemporaryFile
 from django.http import FileResponse
 
 from hardcopy import bytestring_to_pdf, bytestring_to_png
