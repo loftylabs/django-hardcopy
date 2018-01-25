@@ -22,11 +22,14 @@ def get_chrome_path():
             if Path(path).is_file():
                 return path
     # No path found, throw an error.
-    raise ValueError
+    raise ValueError('Missing CHROME_PATH! Unable to resolve path!')
 
 
 class HardCopyConfig(object):
-    CHROME_PATH = getattr(settings, 'CHROME_PATH', get_chrome_path())
+    CHROME_PATH = (
+        settings.CHROME_PATH
+        if hasattr(settings, 'CHROME_PATH')
+        else get_chrome_path())
     CHROME_WINDOW_SIZE = getattr(settings, 'CHROME_WINDOW_SIZE', '1280,720')
 
 
