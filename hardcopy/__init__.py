@@ -1,5 +1,6 @@
 import subprocess
-from tempfile import NamedTemporaryFile
+
+from django.core.files.temp import NamedTemporaryFile
 
 from hardcopy.conf import settings
 
