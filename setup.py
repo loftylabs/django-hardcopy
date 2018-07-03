@@ -5,7 +5,7 @@ long_description = "Django wrapper and utilities for generating PDF and PNG " \
 
 setup(
     name='django-hardcopy',
-    version='0.1.3',
+    version='0.1.4',
     description=long_description,
     author='Casey Kinsey / Lofty Labs',
     author_email='casey@hirelofty.com',
