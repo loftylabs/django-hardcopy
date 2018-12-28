@@ -1,3 +1,4 @@
+import os
 import platform
 from pathlib import Path
 
@@ -21,6 +22,11 @@ def get_chrome_path():
         for path in LINUX_PATHS:
             if Path(path).is_file():
                 return path
+    if platform.uname()[0] == "Windows":
+        path = '{}\\Google\\Chrome\\Application\\chrome.exe'.format(os.environ.get('ProgramFiles'))
+        if Path(path).is_file():
+            return '"{}"'.format(path)
+
     # No path found, throw an error.
     raise ValueError('Missing CHROME_PATH! Unable to resolve path!')
 
