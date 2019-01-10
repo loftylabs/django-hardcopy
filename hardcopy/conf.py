@@ -11,6 +11,11 @@ LINUX_PATHS = [
     '/usr/bin/chrome-browser',
 ]
 
+WINDOWS_PATHS = [
+    '{}\\Google\\Chrome\\Application\\chrome.exe'.format(os.environ.get('ProgramFiles', '')),
+    '{}\\Google\\Chrome\\Application\\chrome.exe'.format(os.environ.get('ProgramFiles(x86)', '')),
+]
+
 
 def get_chrome_path():
     """Attempt to guess the Chrome path by default."""
@@ -23,9 +28,9 @@ def get_chrome_path():
             if Path(path).is_file():
                 return path
     if platform.uname()[0] == "Windows":
-        path = '{}\\Google\\Chrome\\Application\\chrome.exe'.format(os.environ.get('ProgramFiles'))
-        if Path(path).is_file():
-            return '"{}"'.format(path)
+        for path in WINDOWS_PATHS:
+            if Path(path).is_file():
+                return path
 
     # No path found, throw an error.
     raise ValueError('Missing CHROME_PATH! Unable to resolve path!')
