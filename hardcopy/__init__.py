@@ -6,6 +6,11 @@ from hardcopy.conf import settings
 
 
 def get_chrome_args():
+    """Get the args for the chromium CLI tool
+
+    :return: CLI args for chromium
+    :rtype: list
+    """ 
     return [
         settings.CHROME_PATH,
         '--no-sandbox',  # Avoids permission issues while dockerized.
@@ -21,11 +26,16 @@ def file_to(fmt, input_file, output_file, **extra_args):
     render the HTML as a file with the given format and save it to
     output_file input_file and output_file are both (open) file-like objects.
 
-    :param fmt: string, the format of the output file (pdf, png)
-    :param html_data: file like object to read from
+    :param fmt: the format of the output file (pdf, png)
+    :type fmt: str
+    :param input_file: file like object to read from
+    :type input_file: object
     :param output_file: file like object to write to
+    :type output_file: object
     :param extra_args: additional command line arguments to chrome
-    :return:
+    :type extra_args: dict, optional
+    :return: Returns True if no exceptions occur
+    :rtype: bool
     """
     chrome_args = get_chrome_args()
     if fmt == 'pdf':
@@ -59,11 +69,15 @@ def bytestring_to(converter, html_data, output_file, **extra_args):
     (like a rendered django template response),
     render a PDF and write the output to output_file
 
-    :param html_data: converter function
+    :param converter: converter function
+    :type converter: def
     :param html_data: bytestring of html data
     :param output_file: file like object to write to
+    :type output_file: object
     :param extra_args: additional command line arguments to chrome
-    :return:
+    :type extra_args: dict, optional
+    :return: True if no exceptions occur
+    :rtype: bool
     """
     input_file = NamedTemporaryFile(suffix='.html')
     input_file.write(html_data)
@@ -79,23 +93,34 @@ def file_to_pdf(input_file, output_file, **extra_args):
     render the HTML as a PDF and save it to output_file
     input_file and output_file are both (open) file-like objects.
 
-    :param html_data: file like object to read from
+    :param input_file: file like object to read from
+    :type input_file: object
     :param output_file: file like object to write to
+    :type output_file: object
     :param extra_args: additional command line arguments to chrome
-    :return:
+    :type extra_args: dict, optional
+    :return: True if no exceptions occur
+    :rtype: bool
     """
     return file_to('pdf', input_file, output_file, **extra_args)
 
 
 def bytestring_to_pdf(html_data, output_file, **extra_args):
-    """Given a bytestring of html data as input
+    """
+    Given a bytestring of html data as input
     (like a rendered django template response),
     render a PDF and write the output to output_file
 
     :param html_data: bytestring of html data
     :param output_file: file like object to write to
     :param extra_args: additional command line arguments to chrome
-    :return:
+
+    :param html_data: bytestring of html data
+    :type html_data: bytes
+    :param output_file: file like object to write to
+    :type output_file: object
+    :return: Return True if no exceptions occur
+    :rtype: bool
     """
     return bytestring_to(file_to_pdf, html_data, output_file, **extra_args)
 
@@ -107,12 +132,18 @@ def file_to_png(input_file, output_file,
     render the HTML as a PNG and save it to output_file.
     input_file and output_file are both (open) file-like objects.
 
-    :param html_data:  file like object to read from
+    :param input_file: file like object to read from
+    :type input_file: object
     :param output_file: file like object to write to
+    :type output_file: object
     :param width: width of the viewport in pixels
+    :type width: int
     :param height: height of the viewport in pixels
+    :type height: int
     :param extra_args: additional command line arguments to chrome
-    :return:
+    :type extra_args: dict, optional
+    :return: True if no exceptions occur
+    :rtype: bool
     """
     if width is not None and height is not None:
         extra_args.update({'window-size': '{},{}'.format(width, height)})
@@ -127,11 +158,17 @@ def bytestring_to_png(html_data, output_file,
     render a PNG and write the output to output_file.
 
     :param html_data:  bytestring of html data
+    :type html_data: bytes
     :param output_file: file like object to write to
+    :type output_file: object
     :param width: width of the viewport in pixels
+    :type width: int
     :param height: height of the viewport in pixels
+    :type height: int
     :param extra_args: additional command line arguments to chrome
-    :return:
+    :type extra_args: dict, optional
+    :return: True if no exceptions occur
+    :rtype: bool
     """
     if width is not None and height is not None:
         extra_args.update({'window-size': '{},{}'.format(width, height)})
